@@ -30,8 +30,16 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files
+.env
+.env.local
+.env.production
+# Keep .env.example tracked
+!.env.example
+
+# prisma
+prisma/dev.db
+prisma/dev.db-journal
 
 # vercel
 .vercel

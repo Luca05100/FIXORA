@@ -1,0 +1,69 @@
+// Prisma schema for AutoBook - Online Appointment System
+// Supports SQLite (dev) and PostgreSQL (production)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Appointment {
+  id            String   @id @default(cuid())
+  clientName    String
+  clientPhone   String
+  clientEmail   String?
+  carBrand      String
+  carModel      String
+  serviceId     String
+  service       Service  @relation(fields: [serviceId], references: [id])
+  preferredDate DateTime
+  preferredTime String
+  confirmedDate DateTime?
+  confirmedTime String?
+  notes         String?
+  status        String   @default("PENDING")
+  reminderSent  Boolean  @default(false)
+  reviewSent    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Service {
+  id           String        @id @default(cuid())
+  name         String
+  description  String?
+  duration     Int?
+  price        Float?
+  isActive     Boolean       @default(true)
+  sortOrder    Int           @default(0)
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Settings {
+  id              String   @id @default("default")
+  businessName    String   @default("Service Auto")
+  businessPhone   String   @default("")
+  businessEmail   String   @default("")
+  businessAddress String   @default("")
+  googleReviewUrl String   @default("")
+  workingHours    String   @default("{\"luni\":\"08:00-18:00\",\"marti\":\"08:00-18:00\",\"miercuri\":\"08:00-18:00\",\"joi\":\"08:00-18:00\",\"vineri\":\"08:00-18:00\",\"sambata\":\"08:00-14:00\",\"duminica\":\"inchis\"}")
+  primaryColor    String   @default("#1e40af")
+  logoUrl         String   @default("")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
