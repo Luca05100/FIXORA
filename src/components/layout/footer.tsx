@@ -1,56 +1,63 @@
-import { brandConfig } from '@/config/branding';
+import Link from 'next/link';
 
+/** FIXORA Footer — light gray background, 4 columns, copyright bar. */
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-white pt-12 pb-8">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer className="bg-[#F7F7F7] border-t border-[#E5E5E5]">
+      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm">
+        {/* Brand */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">{brandConfig?.name || 'AutoBook'}</h3>
-          <p className="text-slate-400 mb-4">{brandConfig?.description || 'Service auto profesionist.'}</p>
-          <div className="space-y-2 text-sm text-slate-400">
-            <p>{brandConfig?.contact?.address || 'Str. Exemplu 1, București'}</p>
-            <p>Tel: {brandConfig?.contact?.phone || '0700 000 000'}</p>
-            <p>Email: {brandConfig?.contact?.email || 'contact@autobook.ro'}</p>
-          </div>
+          <Link href="/" className="text-xl font-extrabold">
+            <span className="text-[#FF5A20]">FIX</span><span className="text-[#1E1E1E]">ORA</span>
+          </Link>
+          <p className="mt-3 text-[#666] leading-relaxed">
+            Platforma ta de programări la service-uri auto verificate. Rapid, transparent, fără telefoane.
+          </p>
         </div>
-        
+
+        {/* Servicii populare */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Program de lucru</h3>
-          <ul className="space-y-2 text-sm text-slate-400">
-            <li className="flex justify-between border-b border-slate-800 pb-2">
-              <span>Luni - Vineri:</span>
-              <span>{brandConfig?.workingHours?.weekdays || '09:00 - 18:00'}</span>
-            </li>
-            <li className="flex justify-between border-b border-slate-800 pb-2">
-              <span>Sâmbătă:</span>
-              <span>{brandConfig?.workingHours?.saturday || '09:00 - 14:00'}</span>
-            </li>
-            <li className="flex justify-between pb-2">
-              <span>Duminică:</span>
-              <span>{brandConfig?.workingHours?.sunday || 'Închis'}</span>
-            </li>
+          <h4 className="font-bold text-[#1E1E1E] mb-3">Servicii populare</h4>
+          <ul className="space-y-2 text-[#666]">
+            {['Revizie', 'Schimb ulei', 'Frâne', 'Anvelope', 'Diagnoză', 'ITP'].map((s) => (
+              <li key={s}><Link href="/service-uri" className="hover:text-[#FF5A20] transition-colors">{s}</Link></li>
+            ))}
           </ul>
         </div>
 
+        {/* Informații utile */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Linkuri utile</h3>
-          <ul className="space-y-2 text-sm text-slate-400">
-            <li>
-              <a href="/programare" className="hover:text-white transition-colors">Programare online</a>
-            </li>
-            <li>
-              <a href="/termeni" className="hover:text-white transition-colors">Termeni și condiții</a>
-            </li>
-            <li>
-              <a href="/politica-confidentialitate" className="hover:text-white transition-colors">Politica de confidențialitate</a>
-            </li>
+          <h4 className="font-bold text-[#1E1E1E] mb-3">Informații utile</h4>
+          <ul className="space-y-2 text-[#666]">
+            <li><Link href="/despre" className="hover:text-[#FF5A20]">Despre FIXORA</Link></li>
+            <li><Link href="#" className="hover:text-[#FF5A20]">Cum funcționează</Link></li>
+            <li><Link href="#" className="hover:text-[#FF5A20]">Termeni și condiții</Link></li>
+            <li><Link href="#" className="hover:text-[#FF5A20]">Politica de confidențialitate</Link></li>
+            <li><Link href="#" className="hover:text-[#FF5A20]">Blog</Link></li>
+          </ul>
+        </div>
+
+        {/* Contact */}
+        <div>
+          <h4 className="font-bold text-[#1E1E1E] mb-3">Contact</h4>
+          <ul className="space-y-2 text-[#666]">
+            <li>📞 0722 123 456</li>
+            <li>✉️ contact@fixora.ro</li>
+            <li>📍 Târgoviște, România</li>
           </ul>
         </div>
       </div>
-      
-      <div className="container mx-auto px-4 border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-        <p>&copy; {new Date().getFullYear()} {brandConfig?.name || 'AutoBook'}. Toate drepturile rezervate.</p>
-        <p className="mt-2 md:mt-0 font-medium">Powered by AutoBook</p>
+
+      {/* Bottom bar */}
+      <div className="border-t border-[#E5E5E5]">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center text-xs text-[#999]">
+          <span>© {new Date().getFullYear()} FIXORA. Toate drepturile rezervate.</span>
+          <div className="flex gap-4 mt-2 sm:mt-0">
+            <Link href="#" className="hover:text-[#FF5A20]">Termeni</Link>
+            <Link href="#" className="hover:text-[#FF5A20]">Confidențialitate</Link>
+            <Link href="#" className="hover:text-[#FF5A20]">Cookie-uri</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

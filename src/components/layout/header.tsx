@@ -2,61 +2,75 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Phone, Clock } from 'lucide-react';
-import { brandConfig } from '@/config/branding';
+import { Search, Menu, X, User } from 'lucide-react';
 
+/**
+ * FIXORA Header — Dark sticky nav bar.
+ * Logo: "FIX" in orange #FF5A20, "ORA" in white.
+ * Right side: search, login link, orange "Creează cont" CTA.
+ */
 export function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const links = [
+    { label: 'Acasă', href: '/' },
+    { label: 'Servicii', href: '/servicii' },
+    { label: 'Service-uri', href: '/service-uri' },
+    { label: 'Despre noi', href: '/despre' },
+  ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl tracking-tight text-slate-900">
-          {brandConfig?.name || 'AutoBook'}
+    <header className="sticky top-0 z-50 bg-[#1E1E1E] text-white">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 h-14">
+        {/* Logo */}
+        <Link href="/" className="text-xl font-extrabold tracking-tight select-none">
+          <span className="text-[#FF5A20]">FIX</span>
+          <span className="text-white">ORA</span>
         </Link>
-        
-        <div className="hidden md:flex items-center space-x-6">
-          <div className="flex items-center text-sm text-slate-600">
-            <Phone className="w-4 h-4 mr-2" />
-            <span>{brandConfig?.contact?.phone || '0700 000 000'}</span>
-          </div>
-          <div className="flex items-center text-sm text-slate-600">
-            <Clock className="w-4 h-4 mr-2" />
-            <span>{brandConfig?.workingHours?.weekdays || 'L-V: 08:00 - 18:00'}</span>
-          </div>
-          <Link 
-            href="/programare"
-            className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors"
-          >
-            Programează-te
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-6 text-sm">
+          {links.map((l) => (
+            <Link key={l.href} href={l.href} className="text-gray-300 hover:text-white transition-colors">
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right actions */}
+        <div className="hidden md:flex items-center gap-4">
+          <button aria-label="Caută" className="p-2 hover:bg-white/10 rounded-full transition">
+            <Search size={18} />
+          </button>
+          <Link href="/cont/login" className="text-sm text-gray-300 hover:text-white flex items-center gap-1">
+            <User size={16} /> Intră în cont
+          </Link>
+          <Link href="/cont/login" className="bg-[#FF5A20] hover:bg-[#E04D18] text-white text-sm font-semibold px-5 py-2 rounded-full transition-colors">
+            Creează cont
           </Link>
         </div>
 
-        <button 
-          className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-md"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {/* Mobile hamburger */}
+        <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Meniu">
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-100 p-4 bg-white space-y-4">
-          <div className="flex items-center text-sm text-slate-600">
-            <Phone className="w-4 h-4 mr-2" />
-            <span>{brandConfig?.contact?.phone || '0700 000 000'}</span>
-          </div>
-          <div className="flex items-center text-sm text-slate-600">
-            <Clock className="w-4 h-4 mr-2" />
-            <span>{brandConfig?.workingHours?.weekdays || 'L-V: 08:00 - 18:00'}</span>
-          </div>
-          <Link 
-            href="/programare"
-            className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-md font-medium"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Programează-te
+      {/* Mobile slide-in menu */}
+      {open && (
+        <div className="md:hidden bg-[#1E1E1E] border-t border-white/10 px-4 pb-4 space-y-3">
+          {links.map((l) => (
+            <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
+              className="block py-2 text-gray-300 hover:text-white text-sm">
+              {l.label}
+            </Link>
+          ))}
+          <hr className="border-white/10" />
+          <Link href="/cont/login" onClick={() => setOpen(false)}
+            className="block py-2 text-sm text-gray-300">Intră în cont</Link>
+          <Link href="/cont/login" onClick={() => setOpen(false)}
+            className="block text-center bg-[#FF5A20] text-white text-sm font-semibold py-2.5 rounded-full">
+            Creează cont
           </Link>
         </div>
       )}
