@@ -1,130 +1,174 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
-import { Phone, CheckCircle, Clock, Wrench, Shield } from 'lucide-react';
-import { brandConfig } from '@/config/branding';
-import { ServicesList } from '@/components/ServicesList';
+import { motion } from 'framer-motion';
+import { Search, MapPin, Zap, ShieldCheck, BellRing, DollarSign, ArrowRight, ChevronRight } from 'lucide-react';
+import { serviceCategories, popularServices } from '@/config/branding';
 
-export default function Home() {
-  const fallbackFeatures = [
-    { title: 'Rapiditate', description: 'Programare în doar câteva minute.' },
-    { title: 'Profesionalism', description: 'Echipă dedicată și servicii de top.' },
-    { title: 'Transparență', description: 'Prețuri clare și comunicare deschisă.' },
-    { title: 'Calitate', description: 'Garanția calității pentru orice intervenție.' }
-  ];
+/* ─── Animation Variants ─── */
+const fadeUp = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } };
 
-  const features = brandConfig?.features || fallbackFeatures;
-  const phone = brandConfig?.contact?.phone || '0700 000 000';
-  const cleanPhone = phone.replace(/[^0-9+]/g, '');
+export default function HomePage() {
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <div>
-      {/* HERO SECTION */}
-      <section className="bg-gradient-to-br from-slate-50 to-slate-200 py-24 px-4 relative overflow-hidden">
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">
-            Programează-te online, rapid și simplu
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            {brandConfig?.description || 'Lasă-ți mașina pe mâinile profesioniștilor noștri și economisește timp cu programarea online. Simplu, sigur și eficient.'}
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Link 
-              href="/programare" 
-              className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 w-full sm:w-auto"
-            >
-              Programează-te acum
+    <>
+      {/* ════════════ HERO SECTION ════════════ */}
+      <section className="relative bg-[#1E1E1E] overflow-hidden">
+        {/* Background gradient pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1E1E1E] via-[#2a2a2a] to-[#1E1E1E]" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
+
+        <div className="relative max-w-7xl mx-auto px-4 pt-16 pb-24 md:pt-24 md:pb-32">
+          <motion.h1
+            initial="hidden" animate="visible" variants={fadeUp} transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight max-w-2xl"
+            style={{ fontFamily: 'var(--font-montserrat, Montserrat, sans-serif)' }}
+          >
+            Service auto,<br />
+            mai simplu <span className="italic">oricând</span>.
+          </motion.h1>
+
+          <motion.p
+            initial="hidden" animate="visible" variants={fadeUp} transition={{ duration: 0.6, delay: 0.15 }}
+            className="mt-4 text-gray-400 text-base md:text-lg max-w-lg"
+          >
+            Programează-te online la <strong className="text-white">service</strong>-ul preferat,<br />
+            fără telefoane și fără așteptare.
+          </motion.p>
+
+          {/* ── Hero search bar ── */}
+          <motion.div
+            initial="hidden" animate="visible" variants={fadeUp} transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-10 bg-white rounded-full shadow-xl flex items-center p-1.5 max-w-2xl"
+          >
+            <div className="flex items-center flex-1 gap-2 px-4">
+              <Search size={18} className="text-gray-400 shrink-0" />
+              <input
+                type="text"
+                placeholder="Caută un service sau o lucrare..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full py-2.5 text-sm text-[#1E1E1E] placeholder-gray-400 outline-none bg-transparent"
+              />
+            </div>
+            <div className="hidden sm:flex items-center gap-2 px-3 border-l border-gray-200">
+              <MapPin size={16} className="text-gray-400" />
+              <select className="text-sm text-[#1E1E1E] outline-none bg-transparent cursor-pointer pr-1">
+                <option>Târgoviște</option>
+                <option>București</option>
+                <option>Ploiești</option>
+              </select>
+            </div>
+            <Link href="/service-uri"
+              className="bg-[#FF5A20] hover:bg-[#E04D18] text-white font-semibold text-sm px-6 py-3 rounded-full transition-colors flex items-center gap-1.5 shrink-0">
+              <Search size={16} /> Caută
             </Link>
-            <a 
-              href={`tel:${cleanPhone}`}
-              className="px-8 py-4 bg-white text-slate-700 border border-slate-300 rounded-lg font-semibold text-lg hover:bg-slate-50 transition-colors shadow-sm w-full sm:w-auto flex items-center justify-center gap-2"
-            >
-              <Phone className="w-5 h-5" />
-              Sună-ne
-            </a>
-          </div>
+          </motion.div>
+
+          {/* ── Category tags ── */}
+          <motion.div
+            initial="hidden" animate="visible" variants={fadeUp} transition={{ duration: 0.5, delay: 0.45 }}
+            className="mt-5 flex flex-wrap gap-2"
+          >
+            {serviceCategories.map((cat) => (
+              <Link key={cat} href={`/service-uri?s=${encodeURIComponent(cat)}`}
+                className="px-4 py-1.5 text-xs font-medium rounded-full bg-white/10 text-gray-300 border border-white/10 hover:bg-[#FF5A20] hover:text-white hover:border-[#FF5A20] transition-all cursor-pointer">
+                {cat}
+              </Link>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* FEATURES SECTION */}
-      <section className="py-24 px-4 bg-white">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-16">De ce să ne alegi</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature: any, index: number) => (
-              <div key={index} className="bg-slate-50 p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
-                  {index === 0 ? <Clock className="w-7 h-7" /> : 
-                   index === 1 ? <Wrench className="w-7 h-7" /> : 
-                   index === 2 ? <Shield className="w-7 h-7" /> : 
-                   <CheckCircle className="w-7 h-7" />}
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{feature.description}</p>
+      {/* ════════════ BENEFITS STRIP ════════════ */}
+      <section className="bg-white border-b border-[#E5E5E5]">
+        <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { icon: <Zap size={22} />, title: 'Programare în mai puțin de 1 minut', desc: 'Rapid și ușor, direct de pe telefon.' },
+            { icon: <DollarSign size={22} />, title: 'Prețuri transparente și oferte reale', desc: 'Știi exact cât plătești.' },
+            { icon: <ShieldCheck size={22} />, title: 'Service-uri verificate și evaluate', desc: 'Doar service-uri de încredere.' },
+            { icon: <BellRing size={22} />, title: 'Notificări și confirmări automate', desc: 'Reminder pe email și SMS.' },
+          ].map((b, i) => (
+            <motion.div key={i}
+              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+              className="flex items-start gap-4"
+            >
+              <div className="w-11 h-11 rounded-xl bg-[#FFF0E6] text-[#FF5A20] flex items-center justify-center shrink-0">
+                {b.icon}
               </div>
+              <div>
+                <p className="font-bold text-sm text-[#1E1E1E]">{b.title}</p>
+                <p className="text-xs text-[#666] mt-0.5">{b.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════════ POPULAR SERVICES ════════════ */}
+      <section className="bg-[#FCF8F5]">
+        <div className="max-w-7xl mx-auto px-4 py-14">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-[#1E1E1E]" style={{ fontFamily: 'var(--font-montserrat)' }}>
+              Cele mai căutate servicii
+            </h2>
+            <Link href="/service-uri" className="text-[#FF5A20] text-sm font-semibold hover:underline flex items-center gap-1">
+              Vezi toate <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {/* Horizontal scrollable cards */}
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
+            {popularServices.map((svc, i) => (
+              <motion.div key={svc.id}
+                initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                whileHover={{ scale: 1.04 }}
+                className="snap-start"
+              >
+                <Link href={`/service-uri?s=${svc.name}`}
+                  className="block w-36 h-36 md:w-40 md:h-40 rounded-2xl bg-gradient-to-br from-[#2a2a2a] to-[#1E1E1E] relative overflow-hidden group cursor-pointer shrink-0"
+                >
+                  <span className="absolute inset-0 flex items-center justify-center text-4xl opacity-40 group-hover:opacity-60 transition-opacity">
+                    {svc.emoji}
+                  </span>
+                  <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-3 py-2.5">
+                    <span className="text-white text-xs font-semibold">{svc.name}</span>
+                  </span>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SERVICES SECTION */}
-      <section className="bg-slate-50 py-24 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-16">Serviciile noastre</h2>
-          <ServicesList />
+      {/* ════════════ FEATURED CARDS (CTA) ════════════ */}
+      <section className="bg-white">
+        <div className="max-w-7xl mx-auto px-4 py-14 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { title: 'Găsește service-ul potrivit', desc: 'Compară oferte, citește recenzii reale și alege cel mai bun service din zona ta.', cta: 'Explorează service-uri' },
+            { title: 'Programare instant', desc: 'Alege serviciul, data și ora — confirmare pe loc, fără apeluri telefonice.', cta: 'Programează-te acum' },
+            { title: 'Urmărește-ți mașina', desc: 'Vezi istoricul intervențiilor, primești notificări și nu ratezi niciodată o revizie.', cta: 'Creează cont gratuit' },
+          ].map((card, i) => (
+            <motion.div key={i}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+              className="bg-[#FCF8F5] rounded-2xl p-6 border border-[#E5E5E5] hover:shadow-lg transition-shadow"
+            >
+              <div className="w-full h-32 bg-[#1E1E1E] rounded-xl mb-4" />
+              <h3 className="font-bold text-lg text-[#1E1E1E]">{card.title}</h3>
+              <p className="text-sm text-[#666] mt-2">{card.desc}</p>
+              <Link href="/service-uri"
+                className="inline-flex items-center gap-1 mt-4 text-[#FF5A20] text-sm font-semibold hover:underline">
+                {card.cta} <ChevronRight size={14} />
+              </Link>
+            </motion.div>
+          ))}
         </div>
       </section>
-
-      {/* CONTACT SECTION */}
-      <section className="py-24 px-4 bg-white">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-16">Contact</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="space-y-8">
-              <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                <h3 className="text-xl font-bold text-slate-900 mb-6">Informații contact</h3>
-                <div className="space-y-4 text-slate-600">
-                  <p className="flex items-center gap-3">
-                    <span className="font-semibold text-slate-900">Adresă:</span> 
-                    {brandConfig?.contact?.address || 'Str. Exemplu, Nr. 1, București'}
-                  </p>
-                  <p className="flex items-center gap-3">
-                    <span className="font-semibold text-slate-900">Telefon:</span> 
-                    {phone}
-                  </p>
-                  <p className="flex items-center gap-3">
-                    <span className="font-semibold text-slate-900">Email:</span> 
-                    {brandConfig?.contact?.email || 'contact@autobook.ro'}
-                  </p>
-                </div>
-              </div>
-              <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                <h3 className="text-xl font-bold text-slate-900 mb-6">Program de lucru</h3>
-                <table className="w-full text-slate-600">
-                  <tbody>
-                    <tr className="border-b border-slate-200">
-                      <td className="py-3">Luni - Vineri</td>
-                      <td className="text-right font-semibold text-slate-900">{brandConfig?.workingHours?.weekdays || '09:00 - 18:00'}</td>
-                    </tr>
-                    <tr className="border-b border-slate-200">
-                      <td className="py-3">Sâmbătă</td>
-                      <td className="text-right font-semibold text-slate-900">{brandConfig?.workingHours?.saturday || '09:00 - 14:00'}</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3">Duminică</td>
-                      <td className="text-right font-semibold text-slate-900">{brandConfig?.workingHours?.sunday || 'Închis'}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="bg-slate-200 rounded-2xl min-h-[400px] flex items-center justify-center p-8 text-center text-slate-500 border border-slate-300">
-              <div className="bg-white/80 p-6 rounded-xl backdrop-blur-sm">
-                <p className="mb-2 text-lg font-medium text-slate-800">Hartă Google (Placeholder)</p>
-                <p className="text-slate-600">{brandConfig?.contact?.address || 'Locația Service-ului'}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+    </>
   );
 }
