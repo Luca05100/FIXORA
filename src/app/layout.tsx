@@ -1,29 +1,23 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { brandConfig } from '@/config/branding';
+import type { Metadata } from "next";
+import { Inter, Montserrat } from "next/font/google";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", weight: ["600", "700", "800"] });
 
 export const metadata: Metadata = {
-  title: brandConfig?.name ? `${brandConfig.name} - ${brandConfig.tagline || 'Programează-te online'}` : 'AutoBook',
-  description: brandConfig?.description || 'Service auto profesionist. Programează-te online rapid și simplu.',
+  title: "FIXORA — Service auto, mai simplu ca oricând",
+  description: "Programează-te online la service-ul auto preferat. Rapid, simplu, fără apeluri telefonice.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ro">
-      <body className={inter.className}>
+    <html lang="ro" className={`${inter.variable} ${montserrat.variable}`}>
+      <body className="font-[Inter,system-ui,sans-serif] antialiased bg-white text-[#1E1E1E]">
         <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

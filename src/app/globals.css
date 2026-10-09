@@ -2,56 +2,50 @@
 
 /* ============================================
    FIXORA — Global Styles & Theme
+   Palette: Orange #FF5A20, Off-White #FCF8F5, Dark Gray #1E1E1E
+   Typography: Montserrat (headings) / Inter (body)
    ============================================ */
 
 @theme inline {
-  --color-primary: #F26522;
-  --color-primary-hover: #D9551A;
+  --color-primary: #FF5A20;
+  --color-primary-hover: #E04D18;
   --color-primary-light: #FFF0E6;
-  --color-dark: #1A1A1A;
+  --color-offwhite: #FCF8F5;
+  --color-dark: #1E1E1E;
   --color-star: #FFB800;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-heading: "Montserrat", "Inter", system-ui, sans-serif;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #111111;
+  --foreground: #1E1E1E;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans, "Inter", system-ui, -apple-system, sans-serif);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Focus ring for accessibility */
+/* Accessibility focus ring */
 *:focus-visible {
-  outline: 2px solid #F26522;
+  outline: 2px solid #FF5A20;
   outline-offset: 2px;
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #999;
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f5f5f5; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
+
+/* Utility: hide scrollbar but keep scroll */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
